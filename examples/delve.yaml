@@ -1,0 +1,2 @@
+name: delve
+image: quay.io/embik/dlv:v1.9.1
