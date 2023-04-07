@@ -1,14 +1,8 @@
 name: delve-arm
-image: quay.io/embik/dlv:v1.9.1
+image: quay.io/embik/dlv:v1.9.1-arm
 securityContext:
-  runAsUser: 0
   privileged: true
-  capabilities:
-    add:
-      - SYS_PTRACE
-      - CAP_SYS_ADMIN
-  seccompProfile:
-    type: Unconfined
+targetContainerName: sample-app
 command:
   - dlv
   - --listen=:2345

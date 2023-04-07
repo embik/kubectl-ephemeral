@@ -8,11 +8,11 @@ import (
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/oidc"
 
-	"github.com/embik/kubectl-ephemeral-container/internal/cmd"
+	"github.com/embik/kubectl-ephemeral/internal/cmd"
 )
 
 func main() {
-	flags := pflag.NewFlagSet("kubectl-ephemeral-container", pflag.ExitOnError)
+	flags := pflag.NewFlagSet("kubectl-ephemeral", pflag.ExitOnError)
 	pflag.CommandLine = flags
 
 	root := cmd.NewEphemeralContainerCmd(genericclioptions.IOStreams{In: os.Stdin, Out: os.Stdout, ErrOut: os.Stderr})

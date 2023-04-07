@@ -1,4 +1,4 @@
-module github.com/embik/kubectl-ephemeral-container
+module github.com/embik/kubectl-ephemeral
 
 go 1.20
 

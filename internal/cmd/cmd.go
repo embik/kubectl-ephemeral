@@ -11,15 +11,15 @@ import (
 	corev1 "k8s.io/client-go/kubernetes/typed/core/v1"
 	"k8s.io/utils/pointer"
 
-	"github.com/embik/kubectl-ephemeral-container/internal/options"
+	"github.com/embik/kubectl-ephemeral/internal/options"
 )
 
 func NewEphemeralContainerCmd(streams genericclioptions.IOStreams) *cobra.Command {
 	o := options.NewEphemeralContainerOptions(streams)
 
 	cmd := &cobra.Command{
-		Use:          "ephemeral-container [pod name] [flags]",
-		Short:        "Creates an ephemeral container in a target Pod from a YAML specification and execs into it.",
+		Use:          "ephemeral [pod name] [flags]",
+		Short:        "Creates an ephemeral container in a target Pod from a YAML specification.",
 		SilenceUsage: true,
 		RunE: func(c *cobra.Command, args []string) error {
 			if err := o.Complete(c, args); err != nil {
