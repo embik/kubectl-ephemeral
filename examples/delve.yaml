@@ -1,8 +1,7 @@
 name: delve-arm
-image: quay.io/embik/dlv:v1.9.1-arm
+image: quay.io/embik/dlv:v1.20.1
 securityContext:
   privileged: true
-targetContainerName: sample-app
 command:
   - dlv
   - --listen=:2345
