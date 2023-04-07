@@ -14,4 +14,4 @@ spec:
     spec:
       containers:
       - name: sample-app
-        image: quay.io/embik/sample-app:latest
+        image: quay.io/embik/sample-app:v0.1.0
