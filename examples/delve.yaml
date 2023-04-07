@@ -1,4 +1,4 @@
-name: delve-arm
+name: delve
 image: quay.io/embik/dlv:v1.20.1
 securityContext:
   privileged: true
