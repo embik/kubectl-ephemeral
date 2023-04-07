@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/spf13/cobra"
 
@@ -38,6 +39,7 @@ func NewEphemeralContainerCmd(streams genericclioptions.IOStreams) *cobra.Comman
 	}
 
 	cmd.Flags().StringVarP(&o.ContainerFilePath, "file", "f", "", "file containing a YAML container spec to create an ephemeral container from")
+	cmd.Flags().StringVarP(&o.TargetContainerName, "container", "c", "", "container within the target pod that the ephemeral container will attach itself to")
 	o.ConfigFlags.AddFlags(cmd.Flags())
 
 	return cmd
@@ -68,6 +70,20 @@ func Run(opts *options.EphemeralContainerOptions, ctx context.Context) error {
 	if err != nil {
 		return err
 	}
+
+	containerValid := false
+	for _, container := range pod.Spec.Containers {
+		if container.Name == opts.TargetContainerName {
+			containerValid = true
+			break
+		}
+	}
+
+	if !containerValid {
+		return fmt.Errorf("container '%s' not found in pod '%s'", opts.TargetContainerName, opts.TargetPodName)
+	}
+
+	container.TargetContainerName = opts.TargetContainerName
 
 	pod.Spec.EphemeralContainers = append(pod.Spec.EphemeralContainers, *container)
 

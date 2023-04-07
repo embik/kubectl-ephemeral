@@ -13,9 +13,10 @@ type EphemeralContainerOptions struct {
 
 	ConfigFlags *genericclioptions.ConfigFlags
 
-	args              []string
-	ContainerFilePath string
-	TargetPodName     string
+	args                []string
+	ContainerFilePath   string
+	TargetPodName       string
+	TargetContainerName string
 }
 
 func NewEphemeralContainerOptions(streams genericclioptions.IOStreams) *EphemeralContainerOptions {
@@ -45,6 +46,10 @@ func (o *EphemeralContainerOptions) Validate() error {
 
 	if o.ContainerFilePath == "" {
 		return fmt.Errorf("must pass a container file path")
+	}
+
+	if o.TargetContainerName == "" {
+		return fmt.Errorf("must pass a container name within the target pod")
 	}
 
 	return nil
