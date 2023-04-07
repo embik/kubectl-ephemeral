@@ -1,2 +1,21 @@
-name: delve
+name: delve-arm
 image: quay.io/embik/dlv:v1.9.1
+securityContext:
+  runAsUser: 0
+  privileged: true
+  capabilities:
+    add:
+      - SYS_PTRACE
+      - CAP_SYS_ADMIN
+  seccompProfile:
+    type: Unconfined
+command:
+  - dlv
+  - --listen=:2345
+  - --headless=true
+  - --log=true
+  - --log-output=debugger,debuglineerr,gdbwire,lldbout,rpc
+  - --accept-multiclient
+  - --api-version=2
+  - attach
+  - '1'

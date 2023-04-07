@@ -71,7 +71,8 @@ func Run(opts *options.EphemeralContainerOptions, ctx context.Context) error {
 
 	pod.Spec.EphemeralContainers = append(pod.Spec.EphemeralContainers, *container)
 
-	if _, err := client.Pods(*namespace).UpdateEphemeralContainers(ctx, pod.Name, pod, metav1.UpdateOptions{}); err != nil {
+	_, err = client.Pods(*namespace).UpdateEphemeralContainers(ctx, pod.Name, pod, metav1.UpdateOptions{})
+	if err != nil {
 		return err
 	}
 
