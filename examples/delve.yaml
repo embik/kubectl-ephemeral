@@ -4,7 +4,7 @@ securityContext:
   privileged: true
 command:
   - dlv
-  - --listen=:2345
+  - --listen=127.0.0.1:2345
   - --headless=true
   - --log=true
   - --log-output=debugger,debuglineerr,gdbwire,lldbout,rpc
