@@ -48,9 +48,5 @@ func (o *EphemeralContainerOptions) Validate() error {
 		return fmt.Errorf("must pass a container file path")
 	}
 
-	if o.TargetContainerName == "" {
-		return fmt.Errorf("must pass a container name within the target pod")
-	}
-
 	return nil
 }

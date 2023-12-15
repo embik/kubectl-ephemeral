@@ -19,7 +19,7 @@ func NewEphemeralContainerCmd(streams genericclioptions.IOStreams) *cobra.Comman
 
 	cmd := &cobra.Command{
 		Use:          "ephemeral [pod name] [flags]",
-		Short:        "Creates an ephemeral container in a target Pod from a YAML specification.",
+		Short:        "Create an ephemeral container in a target pod from YAML specification.",
 		SilenceUsage: true,
 		RunE: func(c *cobra.Command, args []string) error {
 			if err := o.Complete(c, args); err != nil {
@@ -48,17 +48,17 @@ func NewEphemeralContainerCmd(streams genericclioptions.IOStreams) *cobra.Comman
 func Run(opts *options.EphemeralContainerOptions, ctx context.Context) error {
 	container, err := getContainerFromFile(opts.ContainerFilePath)
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to read ephemeral container spec from file: %w", err)
 	}
 
 	clientConfig, err := opts.ConfigFlags.ToRawKubeConfigLoader().ClientConfig()
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to load kubeconfig: %w", err)
 	}
 
 	client, err := corev1.NewForConfig(clientConfig)
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to construct client: %w", err)
 	}
 
 	namespace := opts.ConfigFlags.Namespace
@@ -68,29 +68,33 @@ func Run(opts *options.EphemeralContainerOptions, ctx context.Context) error {
 
 	pod, err := client.Pods(*namespace).Get(ctx, opts.TargetPodName, metav1.GetOptions{})
 	if err != nil {
-		return err
+		return fmt.Errorf("target pod not found: %w", err)
 	}
 
-	containerValid := false
-	for _, container := range pod.Spec.Containers {
-		if container.Name == opts.TargetContainerName {
-			containerValid = true
-			break
+	if opts.TargetContainerName != "" {
+		containerValid := false
+		for _, container := range pod.Spec.Containers {
+			if container.Name == opts.TargetContainerName {
+				containerValid = true
+				break
+			}
 		}
-	}
 
-	if !containerValid {
-		return fmt.Errorf("container '%s' not found in pod '%s'", opts.TargetContainerName, opts.TargetPodName)
-	}
+		if !containerValid {
+			return fmt.Errorf("container %s not found in target pod %s", opts.TargetContainerName, opts.TargetPodName)
+		}
 
-	container.TargetContainerName = opts.TargetContainerName
+		container.TargetContainerName = opts.TargetContainerName
+	}
 
 	pod.Spec.EphemeralContainers = append(pod.Spec.EphemeralContainers, *container)
 
 	_, err = client.Pods(*namespace).UpdateEphemeralContainers(ctx, pod.Name, pod, metav1.UpdateOptions{})
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to create ephemeral container: %w", err)
 	}
+
+	fmt.Printf("EphemeralContainer/%s created\n", container.Name)
 
 	return nil
 }
