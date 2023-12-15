@@ -1,13 +1,13 @@
 name: delve
 image: quay.io/embik/dlv:v1.20.1
 securityContext:
-  privileged: true
+  capabilities:
+    add:
+      - SYS_PTRACE
 command:
   - dlv
   - --listen=127.0.0.1:2345
   - --headless=true
-  - --log=true
-  - --log-output=debugger,debuglineerr,gdbwire,lldbout,rpc
   - --accept-multiclient
   - --api-version=2
   - attach
