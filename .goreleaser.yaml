@@ -5,6 +5,7 @@ release:
     name: kubectl-ephemeral
 builds:
   - id: kubectl-ephemeral
+    main: ./cmd/kubectl-ephemeral
     goos:
     - linux
     - darwin
