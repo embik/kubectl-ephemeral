@@ -4,6 +4,35 @@ A simple `kubectl` plugin that allows launching ephemeral containers from a YAML
 
 ## Installation
 
+`kubectl-ephemeral` is currently available from [my krew index](https://github.com/embik/krew-index) or my [Homebrew tap](https://github.com/embik/homebrew-tap).
+
+### Krew
+
+This installation method requires [krew](https://krew.sigs.k8s.io) installed.
+
+Add the krew index and synchronize the local copy of it:
+
+```sh
+$ kubectl krew index add embik https://github.com/embik/krew-index.git
+$ kubectl krew update
+```
+
+`kubectl-ephemeral` can now be installed with the following command:
+
+```sh
+$ kubectl krew install embik/ephemeral
+```
+
+### Homebrew
+
+Installation via [Homebrew](https://brew.sh) is possible with the following command:
+
+```sh
+$ brew install embik/tap/kubectl-ephemeral
+```
+
+### Manual
+
 Run `make build` to get the binary `_build/kubectl-ephemeral` built. Then run:
 
 ```sh
