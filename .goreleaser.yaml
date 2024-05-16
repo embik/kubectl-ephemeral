@@ -1,0 +1,74 @@
+project_name: kubectl-ephemeral
+release:
+  github:
+    owner: embik
+    name: kubectl-ephemeral
+builds:
+  - id: kubectl-ephemeral
+    goos:
+    - linux
+    - darwin
+    - windows
+    goarch:
+    - amd64
+    - arm64
+    env:
+      - CGO_ENABLED=0
+    ldflags:
+      - -s -w
+      - -extldflags "-static"
+    binary: kubectl-ephemeral
+    hooks: {}
+
+archives:
+  - id: kubectl-ephemeral
+    builds:
+      - kubectl-ephemeral
+    format: tar.gz
+    format_overrides:
+      - goos: windows
+        format: zip
+    name_template: "{{ .Binary }}_{{ .Os }}_{{ .Arch }}"
+
+checksum:
+  name_template: "{{ .ProjectName }}_checksums.txt"
+  algorithm: sha256
+
+brews:
+  - repository:
+      owner: embik
+      name: homebrew-tap
+      branch: "kubectl-ephemeral-{{ .Tag }}"
+      pull_request:
+        enabled: true
+        draft: false
+        base:
+          owner: embik
+          name: homebrew-tap
+          branch: main
+    commit_author:
+      name: Marvin Beckers
+      email: git@beckers.dev
+    directory: Formula
+    homepage: "https://github.com/embik/kubectl-ephemeral"
+    license: "Apache-2.0"
+    dependencies:
+      - name: kubectl
+    description: "kubectl-ephemeral is a kubectl plugin to create ephemeral containers from a EphemeralContainer YAML specification."
+
+krews:
+  - repository:
+      owner: embik
+      name: krew-index
+      branch: "kubectl-ephemeral-{{ .Tag }}"
+      pull_request:
+        enabled: true
+        base:
+          owner: embik
+          name: krew-index
+          branch: main
+    commit_author:
+      name: Marvin Beckers
+      email: git@beckers.dev
+    description: "kubectl-ephemeral is a kubectl plugin to create ephemeral containers from a EphemeralContainer YAML specification."
+    short_description: "Create ephemeral containers from YAML."
