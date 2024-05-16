@@ -55,7 +55,7 @@ brews:
     license: "Apache-2.0"
     dependencies:
       - name: kubectl
-    description: "kubectl-ephemeral is a kubectl plugin to create ephemeral containers from a EphemeralContainer YAML specification."
+    description: "Plugin for kubectl to create ephemeral containers from a YAML file"
 
 krews:
   - repository:
@@ -71,5 +71,6 @@ krews:
     commit_author:
       name: Marvin Beckers
       email: git@beckers.dev
-    description: "kubectl-ephemeral is a kubectl plugin to create ephemeral containers from a EphemeralContainer YAML specification."
-    short_description: "Create ephemeral containers from YAML."
+    homepage: "https://github.com/embik/kubectl-ephemeral"
+    description: "Creates ephemeral containers from YAML based on the v1.EphemeralContainer spec. Useful for situations not covered by kubectl debug profiles."
+    short_description: "Creates ephemeral containers from YAML"
