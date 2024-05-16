@@ -58,7 +58,8 @@ brews:
     description: "Plugin for kubectl to create ephemeral containers from a YAML file"
 
 krews:
-  - repository:
+  - name: ephemeral
+    repository:
       owner: embik
       name: krew-index
       branch: "kubectl-ephemeral-{{ .Tag }}"
